@@ -1,0 +1,110 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Online Payment {% endblock title %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'core/vendors/sweetalert/sweetalert.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+
+  <main >
+    <div class="container wow fadeIn bg">
+
+      <h2 class="my-5 h2 text-center card-header bg-light">Payment</h2>
+
+      <div class="row">
+        {% include "shop/order_snippet.html" %}
+         <!-- payment-->
+        <div class="col-md-12 mb-4">
+          <button class="btn btn-primary py-3 px-5 float-right" type="button" onclick="payWithPaystack()">Pay Now</button>
+          <form >
+            {% csrf_token %}
+            <script src="https://js.paystack.co/v1/inline.js"></script>
+            <script>
+              function payWithPaystack(){
+                var handler = PaystackPop.setup({
+                key: '{{payment_key}}',
+                email: '{{ request.user.email }}',
+                amount: {{ order.amount_in_kobo }},
+                currency: "NGN",
+                
+                metadata: {
+                  custom_fields: [
+                    {
+                      display_name: "User ID",
+                      variable_name: "Profile",
+                      value: "{{ request.user.profile.uid }}"
+                    },
+                    {
+                    display_name: "User Email",
+                    variable_name: "user_email",
+                    value: '{{ request.user.email }}'
+                    }
+                  ]
+                },
+        
+                callback: function(response){
+                  //alert('success. transaction ref is ' + response.reference);
+                  console.log(response);
+                  const data = {
+                    status : response.status,
+                    reference : response.reference,
+                    trans : response.trans,
+                    transaction : response.transaction,
+                    trxref : response.trxref,
+                    message : response.message,
+                    order_uid :  '{{ order.ref_code }}',
+                    next_url : "{{ request.get_full_path }}",
+                  };
+                  $.ajax( {
+                    url : "",
+                    type : 'POST',
+                    data : data,
+                    // dataType = JSON,
+                    success : function(result){
+                      //alert("Success","continue", "Good");
+                      var msg = result['message'];
+                      var next_url = result['next_url'];
+                      //swal('Success', 'Transaction Reference: ' + result, 'success');
+                      swal('Success', msg, 'success');
+                      window.location.href = next_url;
+                    },
+                    error: function(error){
+                      //alert("Error","continue", "Bad");
+                      swal('Error', 'An Error Occur !!!, Please Try Again', 'error');
+                    }
+                    }
+                  )   
+      
+                },
+                onClose: function(){
+                  //alert('window closed');
+                  swal('Abort Transaction', 'Are you Sure?', 'error');
+                }
+                });
+                handler.openIframe();
+              } 
+            </script>
+          </form>
+        </div>
+        <!--./ payment-->
+        <!-- end payment--> 
+      </div>
+
+    </div>
+  </main>
+
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock extra_body %}
+
+{% block extra_scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'core/js/django.csrf.js' %}"></script>
+<script src="{% static 'core/vendors/sweetalert/sweetalert.min.js' %}"></script>
+{% endblock extra_scripts %}
+
+
+
+

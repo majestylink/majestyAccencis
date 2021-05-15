@@ -1,0 +1,106 @@
+{% load cart_template_tags %}
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark white double-nav scrolling-navbar">
+  <div class="container">
+
+  <!-- Brand -->
+  <a class="navbar-brand waves-effect" href="/">
+    <i class="fas fa-home text-primary"></i>
+  </a>
+
+  <!-- Collapse -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Links -->
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <!-- Left -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link waves-effect" href="{% url 'shop:shop-home' %}">
+        <i class="fas fa-shopping-cart ml-2 text-warning"></i>
+        Shop</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-effect" href="{% url 'shop:request-fashion' %}">
+        <i class="fas fa-shopping-basket text-danger"></i>
+        Fashion</a>
+      </li> 
+      <!-- Dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false"><strong class="blue-text">Accencis</strong></a>
+        <div class="dropdown-menu dropdown-primary bg-light" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="{% url 'core:page' 'about' %}">About</a>
+          <a class="dropdown-item" href="{% url 'core:contact' %}">Contact Us</a>
+          <a class="dropdown-item" href="{% url 'blog:blog-home' %}">Blog</a>
+          <a class="dropdown-item" href="{% url 'shop:shop-home' %}">Shop</a>
+          <a class="dropdown-item" href="{% url 'shop:request-fashion' %}">Request a Design</a>
+          <a class="dropdown-item" href="{% url 'core:page' 'fags' %}">FAQs</a>
+          
+        </div>
+      </li>
+    </ul>
+
+    <!-- Right -->
+    <ul class="navbar-nav nav-flex-icons">
+      {% if request.user.is_authenticated %}
+      <li class="nav-item">
+        <a href="{% url 'shop:order-summary' %}" class="nav-link waves-effect">
+          <span class="badge red z-depth-1 mr-1"> {{ request.user|cart_item_count }} </span>
+          <i class="fas fa-shopping-cart"></i>
+          <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+        </a>
+      </li>
+      {% if is_admin %}
+        <li class="nav-item">
+          <a href="{% url 'admin:index' %}" class="nav-link waves-effect">
+            <i class="fa fa-user-secret text-warning z-depth-1 "></i>
+          </a>
+        </li>
+      {% endif %}
+      <!--profile-->
+      {% comment %} <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item avatar dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle z-depth-0"
+              alt="avatar image" height="35">
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+            aria-labelledby="navbarDropdownMenuLink-55">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item">1
+              <i class="fas fa-envelope"></i>
+            </a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+      </ul> {% endcomment %}
+      <!--./profile-->
+      <li class="nav-item">
+        <a class="nav-link waves-effect" href="{% url 'account_logout' %}">
+          <span class="clearfix d-none d-sm-inline-block"><i class="fas fa-sign-out-alt"></i>Logout</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link waves-effect" href="{% url 'account_login' %}">
+          <span class="clearfix d-none d-sm-inline-block"><i class="fas fa-sign-in-alt"></i>Login</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-effect" href="{% url 'account_signup' %}">
+          <span class="clearfix d-none d-sm-inline-block"><i class="fas fa-user-plus"></i>Signup</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+
+  </div>
+</nav>

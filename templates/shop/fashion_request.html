@@ -1,0 +1,45 @@
+{% extends "core/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Request a Fashion{% endblock title %}
+
+{% block content %}
+  <main>
+    <div class="container">
+      <section class="mb-4">
+        <div class="row fadeIn">
+          <div class='col-md-6'>
+            <h1>Request a Fashion</h1>
+            <h5 class="card-subtitle text-info"> Note: Not All Product have the same measurement,
+              Only Fill in What is Required for your Requests
+            </h6>
+            <form method="POST">
+              <input name='product_slug' type="hidden" value= "{{product.slug}}" >
+              {% csrf_token %}
+              {{ form|crispy }}
+              <button class='btn btn-primary' type="submit">Request &raquo;</button>
+            </form>
+          </div>
+          {% if product %}
+          <div class='col-md-6'>
+            <h1>Product: {{product.title}}</h1>
+              <img src="{{object.image.url}}" class="img-fluid card-img" alt="{{object.title}}">
+          </div>
+          {% else %}
+            <div class='col-md-6'>
+            <img src="{% static 'core/img/bg.png' %}" height='100px' class="img-fluid" alt="">
+            </div>
+          {% endif %}
+        </div>
+      </section>
+    </div>
+  </main>
+{% endblock content %}
+
+{% block extra_body %}
+{% endblock extra_body %}
+
+
+{% block extra_scripts %}
+{% endblock extra_scripts %}
