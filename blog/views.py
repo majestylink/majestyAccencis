@@ -62,7 +62,7 @@ def add_comment(request):
             comment.email = email
             comment.text = text
             comment.save()
-            print("*"(10))
+            # print("*"(10))
         except Exception as e:
             print(e)
         return HttpResponseRedirect(next_url)

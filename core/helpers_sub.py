@@ -10,6 +10,7 @@ from django.utils import timezone
 from uuid import uuid4
 from core.models import SiteInformation
 
+
 class Egg:
     title = "Page Not Created"
     slug = "Page Not Created"
@@ -22,17 +23,21 @@ class Egg:
     def __str__(self):
         return self.title
 
+
 def getUniqueId():
     tmp = uuid4()
     tmp_ = str(tmp).split('-')[0]
     return tmp_
 
+
 def LongUniqueId():
     tmp = uuid4()
     return tmp
 
+
 def siteLoginUrl():
     return 'accounts/login/'
+
 
 def themeVersion():
     ''' return the current active theme/template '''
@@ -46,53 +51,58 @@ def themeVersion():
         if theme.endswith('/'):
             return theme
         else:
-            return theme+'/'
+            return theme + '/'
+
 
 def getSitePhone(num=0):
     try:
         phones = SiteInformation.objects.filter(slug__contains='phone')
-        if num>0:
+        if num > 0:
             return phones[:num]
         else:
             return phones[num]
     except Exception as e:
-        return '+2348035971242'
+        return '+2349034742283'
+
 
 def getSiteEmail():
     try:
         email = SiteInformation.objects.filter(slug__contains='email').order_by('-updated').first()
         if not email:
-            mail = 'me@ahmadabdulnasir.com.ng'
+            mail = 'atuhsamuel96@gmail.com'
         else:
-            mail =  email.info
+            mail = email.info
     except Exception as e:
-        mail =  'me@ahmadabdulnasir.com.ng'
+        mail = 'atuhsamuel96@gmail.com'
     finally:
         return mail
+
 
 def getSiteAddress():
     try:
         address = SiteInformation.objects.filter(slug__contains='address').order_by('-updated').first()
         if not address:
-            address = 'me@ahmadabdulnasir.com.ng'
+            address = 'majestylink.com'
         else:
-            address =  address.info
+            address = address.info
     except Exception as e:
-        address =  'me@ahmadabdulnasir.com.ng'
+        address = 'majestylink.com'
     finally:
         return address
+
 
 def getSiteSocial(social='twitter'):
     try:
         site = SiteInformation.objects.filter(slug__contains=social).order_by('-updated').first()
         if not site:
-            site = 'https://ahmadabdulnasir.com.ng'
+            site = 'https://twitter.com/AtuhSamuel_HQ'
         else:
-            site =  site.info
+            site = site.info
     except Exception as e:
-        site =  'https://ahmadabdulnasir.com.ng'
+        site = 'https://twitter.com/AtuhSamuel_HQ'
     finally:
         return site
+
 
 def getSiteTagline():
     try:
@@ -100,9 +110,9 @@ def getSiteTagline():
         if not info:
             info = 'DaboLinux Technologies - The Feture in Your Hands'
         else:
-            info =  info.info
+            info = info.info
     except Exception as e:
-        info =  'DaboLinux Technologies - The Feture in Your Hands'
+        info = 'DaboLinux Technologies - The Feture in Your Hands'
     finally:
         return info
 
@@ -110,7 +120,7 @@ def getSiteTagline():
 def getSiteMedia(num=0):
     try:
         media = GalleryImage.objects.all()
-        if num !=0:
+        if num != 0:
             print(len(media))
             return media[:num]
         else:
@@ -128,15 +138,17 @@ def getPaymentKey(value):
             print('[DEBUG]: Payment Key Not Found, Using Test Key')
             info = 'pk_test_56fb985ccde08b20dec70ea03feac02ccdb01036'
         else:
-            info =  info.info
+            info = info.info
             print('[DEBUG]: Payment Key Found', info)
     except Exception as e:
         print('[DEBUG]: Payment Key Not Found Exception, Using Test Key')
-        info =  'pk_test_56fb985ccde08b20dec70ea03feac02ccdb01036'
+        info = 'pk_test_56fb985ccde08b20dec70ea03feac02ccdb01036'
         print(e)
     finally:
         return info
-#https://fb.com/ahmad.abdulnasir
+
+
+# https://fb.com/ahmad.abdulnasir
 
 
 class DaboLinux:
@@ -144,10 +156,10 @@ class DaboLinux:
         self.name = "DaboLinux Technologies SMS Solution"
         self.description = "DaboLinux Technologies School Management Software Solution"
         self.sale_email = 'sales@dabolinux.com'
-        self.contact_email = 'me@ahmadabdulnasir.com.ng' #'contact@dabolinux.com'
+        self.contact_email = 'me@ahmadabdulnasir.com.ng'  # 'contact@dabolinux.com'
         self.phones = ['+2348035971242', '+2348182788350']
         self.title = 'DaboLinux SMS'
-        self.website = 'https://ahmadabdulnasir.com.ng/me/' #'https://www.dabolinux.com'
+        self.website = 'https://ahmadabdulnasir.com.ng/me/'  # 'https://www.dabolinux.com'
         self.short = 'Dabolinux Technologies'
         self.short_software_name = 'DL SMS'
         _, q = self.info(), self.developer()
@@ -159,6 +171,7 @@ class DaboLinux:
         self.dev_phone = '+2348035971242'
         self.dev_website = 'https://ahmadabdulnasir.com.ng/me/'
         return self.dev_name
+
     def info(self):
         self.text = '''
         <p>{0} started in 2018 with a single bit of code to enhance the record management
@@ -179,6 +192,5 @@ class DaboLinux:
         self.version = 'Version 0.1'
         self.last_update = '04<sup>th</sup> July, 2018</p>'
 
-
     def __str__(self):
-        return self.name 
+        return self.name
